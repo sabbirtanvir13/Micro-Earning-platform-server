@@ -21,9 +21,13 @@ export const getAvailableTasks = async (req, res) => {
       ];
     }
 
+    let sortOption = { createdAt: -1 };
+    if (req.query.sort === 'coins_high') sortOption = { coinsPerWorker: -1 };
+    else if (req.query.sort === 'coins_low') sortOption = { coinsPerWorker: 1 };
+
     const tasks = await Task.find(query)
       .populate('buyerId', 'displayName email')
-      .sort({ createdAt: -1 })
+      .sort(sortOption)
       .skip(skip)
       .limit(parseInt(limit));
 
