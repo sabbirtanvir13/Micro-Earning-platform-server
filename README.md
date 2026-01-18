@@ -37,6 +37,10 @@ JWT_SECRET=your_ultra_secure_jwt_secret
 STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 CLIENT_URL=http://localhost:5173
+FIREBASE_PROJECT_ID=your_id
+FIREBASE_PRIVATE_KEY="your_key"
+FIREBASE_CLIENT_EMAIL=your_email
+IMGBB_API_KEY=your_imgbb_key
 ```
 
 ## 🚀 Getting Started
