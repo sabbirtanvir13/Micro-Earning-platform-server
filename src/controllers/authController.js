@@ -249,6 +249,41 @@ export const getMe = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+// Update current user profile
+export const updateProfile = async (req, res) => {
+  try {
+    const { displayName, photoURL } = req.body;
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (displayName) user.displayName = displayName;
+    if (photoURL) user.photoURL = photoURL;
+
+    await user.save();
+
+    res.json({
+      message: 'Profile updated successfully',
+      user: {
+        id: user._id,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        role: user.role,
+        coins: user.coins,
+        totalEarned: user.totalEarned,
+        totalSpent: user.totalSpent,
+        profileImage: user.profileImage,
+      },
+    });
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
 // Admin: Get all users
 export const getAllUsers = async (req, res) => {
   try {

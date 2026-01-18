@@ -4,6 +4,7 @@ import {
   verifyFirebase,
   selectRole,
   getMe,
+  updateProfile,
   getAllUsers,
   updateUserStatus,
   updateUserRole,
@@ -36,6 +37,11 @@ router.post(
 );
 
 // GET /api/auth/me
+router.get('/me', authenticate, getMe);
+
+// PUT /api/auth/profile
+router.put('/profile', authenticate, updateProfile);
+
 // Admin: Get all users
 router.get('/users', authenticate, requireAdmin, getAllUsers);
 
