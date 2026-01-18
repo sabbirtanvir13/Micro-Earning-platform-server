@@ -249,3 +249,62 @@ export const getMe = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+// Admin: Get all users
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select('-__v').sort({ createdAt: -1 });
+    res.json({ users });
+  } catch (error) {
+    console.error('Get all users error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// Admin: Update user status (Active/Inactive)
+export const updateUserStatus = async (req, res) => {
+  try {
+    const { userId, isActive } = req.body;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.role === 'admin') {
+      return res.status(403).json({ message: 'Cannot deactivate an admin account' });
+    }
+
+    user.isActive = isActive;
+    await user.save();
+
+    res.json({ message: `User account ${isActive ? 'activated' : 'deactivated'} successfully`, user });
+  } catch (error) {
+    console.error('Update user status error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// Admin: Update user role
+export const updateUserRole = async (req, res) => {
+  try {
+    const { userId, role } = req.body;
+
+    if (!['worker', 'buyer', 'admin'].includes(role)) {
+      return res.status(400).json({ message: 'Invalid role' });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.role = role;
+    await user.save();
+
+    res.json({ message: 'User role updated successfully', user });
+  } catch (error) {
+    console.error('Update user role error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};

@@ -4,9 +4,13 @@ import {
   verifyFirebase,
   selectRole,
   getMe,
+  getAllUsers,
+  updateUserStatus,
+  updateUserRole,
 } from '../controllers/authController.js';
 import { authenticate } from '../middleware/auth.js';
 import { validate } from '../middleware/validation.js';
+import { requireAdmin } from '../middleware/role.js';
 
 const router = express.Router();
 
@@ -32,6 +36,13 @@ router.post(
 );
 
 // GET /api/auth/me
-router.get('/me', authenticate, getMe);
+// Admin: Get all users
+router.get('/users', authenticate, requireAdmin, getAllUsers);
+
+// Admin: Update user status
+router.patch('/users/status', authenticate, requireAdmin, updateUserStatus);
+
+// Admin: Update user role
+router.patch('/users/role', authenticate, requireAdmin, updateUserRole);
 
 export default router;
