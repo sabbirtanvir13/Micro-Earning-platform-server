@@ -81,4 +81,4 @@ IMGBB_API_KEY=your_imgbb_key
 - `node seed_tasks.js`: Populates the database with demo micro-tasks.
 
 ---
-*Built with ❤️ for High-Performance Micro-Earning Applications.*
+*Built with ❤️ for High-Performance Micro-Earning Applications.Task*
