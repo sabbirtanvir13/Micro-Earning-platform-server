@@ -27,3 +27,5 @@ dist/
 build/
 serviceAccountKey.json*
 serviceAccountKey.template.json
+.vercel
+.env*.local
